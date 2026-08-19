@@ -5,19 +5,19 @@ import { ArrowLeft, ArrowRight, Check, ChevronRight, MapPin, Phone, Send } from 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
-import { trpc } from "@/lib/trpc";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { assetUrl } from "@/lib/siteAssets";
 
 const heroImages = [
-  "/manus-storage/construction-hero_9277bcc5.jpg",
-  "/manus-storage/construction-hero-2_76fd72ca.jpg",
-  "/manus-storage/construction-hero-3_cc7a91dc.jpg",
+  assetUrl("/manus-storage/construction-hero_9277bcc5.jpg"),
+  assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg"),
+  assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg"),
 ];
 
 const serviceCards = [
-  { eyebrow: "ㅇㅇ토건", title: "인사말", href: "/company", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
-  { eyebrow: "Service Guide", title: "서비스안내", href: "/services/scope", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
-  { eyebrow: "Field Archive", title: "기술 소개", href: "/gallery", image: "/manus-storage/construction-hero-3_cc7a91dc.jpg" },
+  { eyebrow: "ㅇㅇ토건", title: "인사말", href: "/company", image: assetUrl("/manus-storage/construction-hero_9277bcc5.jpg") },
+  { eyebrow: "Service Guide", title: "서비스안내", href: "/services/scope", image: assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg") },
+  { eyebrow: "Field Archive", title: "기술 소개", href: "/gallery", image: assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg") },
   { eyebrow: "Location", title: "오시는길", href: "/location", image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85" },
 ];
 
@@ -35,30 +35,22 @@ const consultationAttachmentRules = {
   acceptedTypes: ["image/jpeg", "image/png", "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"] as const,
 };
 
-function fileToBase64(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error("첨부파일을 읽을 수 없습니다."));
-    reader.onload = () => resolve(String(reader.result).split(",")[1] ?? "");
-    reader.readAsDataURL(file);
-  });
-}
 
 const galleryItems = [
-  { title: "보행로 정비", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
-  { title: "경계석 시공", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
-  { title: "블록 포장", image: "/manus-storage/construction-hero-3_cc7a91dc.jpg" },
-  { title: "배수로 정비", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
-  { title: "부대시설 보수", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
+  { title: "보행로 정비", image: assetUrl("/manus-storage/construction-hero_9277bcc5.jpg") },
+  { title: "경계석 시공", image: assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg") },
+  { title: "블록 포장", image: assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg") },
+  { title: "배수로 정비", image: assetUrl("/manus-storage/construction-hero_9277bcc5.jpg") },
+  { title: "부대시설 보수", image: assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg") },
 ];
 
 const technologyCards = [
-  { category: "보행 동선", title: "보행로 정비", description: "보행 폭과 단차, 배수 방향을 함께 살펴 필요한 정비 범위를 확인합니다.", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
-  { category: "경계 마감", title: "경계 구조 시공", description: "기초 높이와 선형, 진입부 연결을 확인해 경계석 마감 기준을 잡습니다.", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
-  { category: "포장 공정", title: "블록 포장 공정", description: "포장 상태와 배수 마감을 점검해 작업 구간별 공정을 안내합니다.", image: "/manus-storage/construction-hero-3_cc7a91dc.jpg" },
-  { category: "기반 정리", title: "기반 시설 정비", description: "기존 시설물과 작업 동선을 확인해 보수 전 필요한 준비 공정을 정리합니다.", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
-  { category: "마감 보수", title: "외부 공간 마감", description: "경계·포장·주변 시설의 연결 상태를 살펴 마감 보수 범위를 안내합니다.", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
-  { category: "완료 확인", title: "완료 현장 기록", description: "작업 구간과 마감 상태를 확인해 완료 후 점검해야 할 항목을 남깁니다.", image: "/manus-storage/construction-hero-3_cc7a91dc.jpg" },
+  { category: "보행 동선", title: "보행로 정비", description: "보행 폭과 단차, 배수 방향을 함께 살펴 필요한 정비 범위를 확인합니다.", image: assetUrl("/manus-storage/construction-hero_9277bcc5.jpg") },
+  { category: "경계 마감", title: "경계 구조 시공", description: "기초 높이와 선형, 진입부 연결을 확인해 경계석 마감 기준을 잡습니다.", image: assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg") },
+  { category: "포장 공정", title: "블록 포장 공정", description: "포장 상태와 배수 마감을 점검해 작업 구간별 공정을 안내합니다.", image: assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg") },
+  { category: "기반 정리", title: "기반 시설 정비", description: "기존 시설물과 작업 동선을 확인해 보수 전 필요한 준비 공정을 정리합니다.", image: assetUrl("/manus-storage/construction-hero_9277bcc5.jpg") },
+  { category: "마감 보수", title: "외부 공간 마감", description: "경계·포장·주변 시설의 연결 상태를 살펴 마감 보수 범위를 안내합니다.", image: assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg") },
+  { category: "완료 확인", title: "완료 현장 기록", description: "작업 구간과 마감 상태를 확인해 완료 후 점검해야 할 항목을 남깁니다.", image: assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg") },
 ];
 
 const siteStandards = [
@@ -342,13 +334,6 @@ export function ConsultationForm({ compact = false, desk = false }: { compact?: 
   const prefilledWorkType = compact ? prefill.get("workType") ?? "" : "";
   const prefilledSchedule = compact ? prefill.get("schedule") ?? "" : "";
   const prefilledNotes = compact ? [prefill.get("locationReady") === "1" ? "현장 위치를 확인했습니다. 주소를 입력하겠습니다." : "", prefill.get("photoReady") === "1" ? "현장 사진·참고사항을 준비했습니다." : ""].filter(Boolean).join("\n") : "";
-  const createConsultation = trpc.consultation.create.useMutation({
-    onSuccess: () => {
-      toast.success("상담 게시글이 비공개로 등록되었습니다.");
-      setLocation("/consultation/list");
-    },
-    onError: (error) => toast.error(error.message || "상담 등록 중 오류가 발생했습니다."),
-  });
   const handleAttachmentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
     const invalidFile = files.find((file) => !(consultationAttachmentRules.acceptedTypes as readonly string[]).includes(file.type) || file.size > consultationAttachmentRules.maxBytes);
@@ -360,34 +345,18 @@ export function ConsultationForm({ compact = false, desk = false }: { compact?: 
     }
     setSelectedAttachments(files);
   };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!agreed) {
       toast.error("개인정보 수집 및 이용에 동의해 주세요.");
       return;
     }
     if (!compact) {
-      toast.info("상세 상담 페이지에서 제목과 비밀번호를 포함해 접수해 주세요.");
       setLocation("/consultation");
       return;
     }
-    const data = new FormData(event.currentTarget);
-    try {
-      const attachments = await Promise.all(selectedAttachments.map(async (file) => ({ fileName: file.name, mimeType: file.type as typeof consultationAttachmentRules.acceptedTypes[number], contentBase64: await fileToBase64(file) })));
-      createConsultation.mutate({
-        title: String(data.get("title") ?? ""),
-        applicantName: String(data.get("name") ?? ""),
-        phone: String(data.get("phone") ?? ""),
-        location: String(data.get("location") ?? ""),
-        workType: String(data.get("workType") ?? ""),
-        schedule: String(data.get("schedule") ?? ""),
-        message: String(data.get("message") ?? ""),
-        password: String(data.get("password") ?? ""),
-        attachments,
-      });
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "첨부파일을 준비하지 못했습니다.");
-    }
+
+    toast.info("현재 페이지는 GitHub Pages용 정적 미리보기입니다. 온라인 상담 전송은 비활성화되어 있으므로 대표번호 또는 이메일을 이용해 주세요.");
   };
 
   return (
@@ -396,7 +365,7 @@ export function ConsultationForm({ compact = false, desk = false }: { compact?: 
         <div><p className="mini-panel__eyebrow">ONLINE INQUIRY</p><h3>온라인상담</h3></div>
         {!compact && <Link href="/consultation" aria-label="온라인 상담 전체 보기"><span>전체보기</span><ChevronRight size={17} /></Link>}
       </div>
-      <p className="form-intro">{compact ? "필수 항목을 남겨주시면 현장 확인과 견적 안내에 필요한 내용을 검토합니다." : "성함, 연락처, 현장 위치를 남겨주시면 확인 후 안내해 드립니다."}</p>
+      <p className="form-intro">{compact ? "GitHub Pages용 정적 미리보기입니다. 입력 내용은 실제 전송되지 않으며, 실제 문의는 대표번호 또는 이메일을 이용해 주세요." : "성함, 연락처, 현장 위치를 남겨주시면 상담 안내 페이지로 이동합니다."}</p>
       <form className="consultation-form" onSubmit={handleSubmit}>
         <div className="form-row"><label htmlFor={compact ? "full-name" : "name"}>성함 <em>*</em></label><input id={compact ? "full-name" : "name"} name="name" required autoComplete="name" placeholder="성함을 입력하세요" /></div>
         <div className="form-row"><label htmlFor={compact ? "full-phone" : "phone"}>연락처 <em>*</em></label><input id={compact ? "full-phone" : "phone"} name="phone" required type="tel" inputMode="tel" autoComplete="tel" pattern="01[0-9]-?[0-9]{3,4}-?[0-9]{4}" placeholder="010-0000-0000" /></div>
@@ -410,7 +379,7 @@ export function ConsultationForm({ compact = false, desk = false }: { compact?: 
           <div className="form-row"><label htmlFor="consultation-password">비밀번호 <em>*</em></label><input id="consultation-password" name="password" required type="password" minLength={4} maxLength={64} autoComplete="new-password" placeholder="상세 확인에 사용할 비밀번호" /></div>
         </>}
         <label className="agreement"><input type="checkbox" checked={agreed} onChange={(event) => setAgreed(event.target.checked)} /><span><em>*</em> 개인정보 수집 및 이용에 동의합니다.</span></label>
-        <button className="form-submit" type="submit" disabled={createConsultation.isPending}><Send size={14} /> {createConsultation.isPending ? "등록 중..." : compact ? "상담 신청하기" : "간편 상담 접수"}</button>
+        <button className="form-submit" type="submit" ><Send size={14} /> {compact ? "상담 문의 안내" : "간편 상담 접수"}</button>
       </form>
     </section>
   );

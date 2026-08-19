@@ -10,50 +10,44 @@ import NotFound from "@/pages/NotFound";
 import PreConsultation from "@/pages/PreConsultation";
 import ServicePromise from "@/pages/ServicePromise";
 import ServiceScope from "@/pages/ServiceScope";
-import { Route, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-function Router() {
-  // make sure to consider if you need authentication for certain routes
+function Routes() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/company"} component={Company} />
-      <Route path={"/services"} component={ServiceScope} />
-      <Route path={"/services/scope"} component={ServiceScope} />
-      <Route path={"/services/promise"} component={ServicePromise} />
-      <Route path={"/consultation/list"} component={ConsultationList} />
-      <Route path={"/consultation"} component={Consultation} />
-      <Route path={"/notices/pre-check"} component={PreConsultation} />
-      <Route path={"/notices"} component={Notices} />
-      <Route path={"/gallery"} component={Gallery} />
-      <Route path={"/location"} component={Location} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />
+      <Route path="/company" component={Company} />
+      <Route path="/services" component={ServiceScope} />
+      <Route path="/services/scope" component={ServiceScope} />
+      <Route path="/services/promise" component={ServicePromise} />
+      <Route path="/consultation/list" component={ConsultationList} />
+      <Route path="/consultation" component={Consultation} />
+      <Route path="/notices/pre-check" component={PreConsultation} />
+      <Route path="/notices" component={Notices} />
+      <Route path="/gallery" component={Gallery} />
+      <Route path="/location" component={Location} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
+      <WouterRouter base={basePath || undefined}>
+        <ThemeProvider defaultTheme="light">
+          <TooltipProvider>
+            <Toaster />
+            <Routes />
+          </TooltipProvider>
+        </ThemeProvider>
+      </WouterRouter>
     </ErrorBoundary>
   );
 }

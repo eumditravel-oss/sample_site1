@@ -6,6 +6,8 @@ import { Link, useLocation } from "wouter";
 import { ArrowUp, ArrowUpRight, ChevronDown, ChevronRight, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { assetUrl } from "@/lib/siteAssets";
+
 const navItems = [
   {
     label: "회사소개", href: "/company",
@@ -40,7 +42,7 @@ const subNavigation = {
 export function BrandMark({ inverse = false }: { inverse?: boolean }) {
   return (
     <Link href="/" className={`brand-mark ${inverse ? "brand-mark--inverse" : ""}`} aria-label="ㅇㅇ토건 홈으로 이동">
-      <img src="/manus-storage/brand-mark_5f5a3175.png" alt="ㅇㅇ토건 심볼" />
+      <img src={assetUrl("/manus-storage/brand-mark_5f5a3175.png")} alt="ㅇㅇ토건 심볼" />
       <span>ㅇㅇ토건</span>
     </Link>
   );
