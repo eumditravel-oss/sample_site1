@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>페이지 이동 중</title>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var parts = path.split("/").filter(Boolean);
+        var repositoryBase = window.location.hostname.endsWith(".github.io") && parts.length > 1 ? "/" + parts[0] : "";
+        var route = path.slice(repositoryBase.length) || "/";
+        window.location.replace(repositoryBase + "/#" + route + window.location.search);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
