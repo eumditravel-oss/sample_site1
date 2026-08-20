@@ -4,12 +4,11 @@
 import { ArrowRight, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 export default function Company() {
   return (
     <SiteFrame>
-      <PageTitle title="회사소개" subtitle="COMPANY INTRODUCTION" crumbs="회사소개 / 인사말" image={assetUrl("/manus-storage/construction-hero_9277bcc5.jpg")} />
+      <PageTitle title="회사소개" subtitle="COMPANY INTRODUCTION" crumbs="회사소개 / 인사말" image="/manus-storage/construction-hero_9277bcc5.jpg" />
       <section className="sub-layout">
         <SubNavigation section="company" />
         <article className="sub-content greeting-content">

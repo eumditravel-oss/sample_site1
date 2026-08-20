@@ -4,7 +4,6 @@
 import { Search } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 const notices = [
   { title: "사이트 이용 및 상담 문의 안내", content: "온라인상담 작성과 비공개 게시글 확인 방법을 안내합니다.", date: "2026.08.18", views: 12 },
@@ -25,7 +24,7 @@ export default function Notices() {
   const handleSearch = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
   return (
     <SiteFrame>
-      <PageTitle title="공지사항" subtitle="NOTICE" image={assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")} />
+      <PageTitle title="공지사항" subtitle="NOTICE" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
       <section className="sub-layout">
         <SubNavigation section="notices" />
         <article className="sub-content board-content">

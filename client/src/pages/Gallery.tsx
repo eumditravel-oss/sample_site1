@@ -2,21 +2,20 @@
  * Design reference: spacious visual archive displaying replaceable project images in an orderly card grid.
  */
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 const workItems = [
-  ["보행로 정비", assetUrl("/manus-storage/construction-hero_9277bcc5.jpg")],
-  ["경계 구조 시공", assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg")],
-  ["블록 포장 공정", assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")],
-  ["기반 시설 정비", assetUrl("/manus-storage/construction-hero_9277bcc5.jpg")],
-  ["외부 공간 마감", assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg")],
-  ["완료 현장 기록", assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")],
+  ["보행로 정비", "/manus-storage/construction-hero_9277bcc5.jpg"],
+  ["경계 구조 시공", "/manus-storage/construction-hero-2_76fd72ca.jpg"],
+  ["블록 포장 공정", "/manus-storage/construction-hero-3_cc7a91dc.jpg"],
+  ["기반 시설 정비", "/manus-storage/construction-hero_9277bcc5.jpg"],
+  ["외부 공간 마감", "/manus-storage/construction-hero-2_76fd72ca.jpg"],
+  ["완료 현장 기록", "/manus-storage/construction-hero-3_cc7a91dc.jpg"],
 ];
 
 export default function Gallery() {
   return (
     <SiteFrame>
-      <PageTitle title="기술 소개" subtitle="TECHNICAL ARCHIVE" image={assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")} />
+      <PageTitle title="기술 소개" subtitle="TECHNICAL ARCHIVE" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
       <section className="sub-layout">
         <SubNavigation section="gallery" />
         <article className="sub-content gallery-content">

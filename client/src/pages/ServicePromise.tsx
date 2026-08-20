@@ -3,12 +3,11 @@
  */
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
 import { PromiseList } from "@/components/HomeSections";
-import { assetUrl } from "@/lib/siteAssets";
 
 export default function ServicePromise() {
   return (
     <SiteFrame>
-      <PageTitle title="고객과의 약속" subtitle="OUR PROMISE" crumbs="고객과의 약속" image={assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")} />
+      <PageTitle title="고객과의 약속" subtitle="OUR PROMISE" crumbs="고객과의 약속" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
       <section className="sub-layout">
         <SubNavigation section="services" />
         <article className="sub-content promise-detail-content">

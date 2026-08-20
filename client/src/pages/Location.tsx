@@ -3,12 +3,11 @@
  */
 import { MapPin, Navigation, Phone } from "lucide-react";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 export default function Location() {
   return (
     <SiteFrame>
-      <PageTitle title="오시는길" subtitle="LOCATION" crumbs="회사소개 / 오시는길" image={assetUrl("/manus-storage/construction-hero_9277bcc5.jpg")} />
+      <PageTitle title="오시는길" subtitle="LOCATION" crumbs="회사소개 / 오시는길" image="/manus-storage/construction-hero_9277bcc5.jpg" />
       <section className="sub-layout">
         <SubNavigation section="company" />
         <article className="sub-content location-content">

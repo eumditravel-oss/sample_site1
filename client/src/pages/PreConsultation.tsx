@@ -4,7 +4,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 const checks = [
   { number: "01", title: "현장 위치", description: "시·군·구 또는 현장 주소를 확인했다면 선택해 주세요.", type: "location" },
@@ -26,7 +25,7 @@ export default function PreConsultation() {
   const consultationHref = `/consultation${params.size ? `?${params.toString()}` : ""}`;
   return (
     <SiteFrame>
-      <PageTitle title="상담 전 확인사항" subtitle="CONSULTATION GUIDE" crumbs="상담 전 확인사항" image={assetUrl("/manus-storage/construction-hero-3_cc7a91dc.jpg")} />
+      <PageTitle title="상담 전 확인사항" subtitle="CONSULTATION GUIDE" crumbs="상담 전 확인사항" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
       <section className="sub-layout">
         <SubNavigation section="notices" />
         <article className="sub-content precheck-content">

@@ -3,7 +3,6 @@
  */
 import { ChevronRight } from "lucide-react";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-import { assetUrl } from "@/lib/siteAssets";
 
 const services = [
   ["경계 구조 시공", "도로 경계, 보차도 구분, 녹지 경계 등 현장 조건에 맞춰 시공 범위와 동선을 검토합니다."],
@@ -15,7 +14,7 @@ const services = [
 export default function ServiceScope() {
   return (
     <SiteFrame>
-      <PageTitle title="공정 범위" subtitle="SERVICE SCOPE" crumbs="공정 범위" image={assetUrl("/manus-storage/construction-hero-2_76fd72ca.jpg")} />
+      <PageTitle title="공정 범위" subtitle="SERVICE SCOPE" crumbs="공정 범위" image="/manus-storage/construction-hero-2_76fd72ca.jpg" />
       <section className="sub-layout">
         <SubNavigation section="services" />
         <article className="sub-content service-content">
