@@ -1,4 +1,4 @@
-import { company } from "@/config/company";
+import { company, contentMode, sampleCompany } from "@/config/company";
 import { notices } from "@/data/notices";
 import { projectCards } from "@/data/projects";
 import { assetUrl } from "@/lib/siteAssets";
@@ -104,7 +104,8 @@ function InquiryPreview() {
 }
 
 function LocationPreview() {
-  return <section className="mini-panel mini-panel--map"><div className="mini-panel__heading"><div><p className="mini-panel__eyebrow">VISIT</p><h3>방문 안내</h3></div><Link href="/location">확인하기 <ChevronRight size={17} /></Link></div><div className="location-preview-card"><MapPin size={32} /><strong>방문 상담은 사전 협의 후 안내합니다.</strong><p>확정된 주소가 등록되면 외부 지도 길찾기 버튼이 제공됩니다.</p></div></section>;
+  const address = company.address ?? (contentMode === "sample" ? sampleCompany.address : null);
+  return <section className="mini-panel mini-panel--map"><div className="mini-panel__heading"><div><p className="mini-panel__eyebrow">VISIT</p><h3>방문 안내</h3></div><Link href="/location">확인하기 <ChevronRight size={17} /></Link></div><div className="location-preview-card"><MapPin size={32} /><strong>방문 상담은 사전 협의 후 안내합니다.</strong>{address && <p>{address} {contentMode === "sample" && !company.address && <span className="sample-inline-label">샘플 주소</span>}</p>}<p>{company.address ? "외부 지도 길찾기를 확인할 수 있습니다." : "실제 주소를 받으면 이 영역과 길찾기 버튼을 교체합니다."}</p></div></section>;
 }
 
 export function InformationGrid() {
@@ -112,5 +113,5 @@ export function InformationGrid() {
 }
 
 export function TechnologyShowcase() {
-  return <section className="technology-showcase"><Reveal className="technology-showcase__heading"><p>FIELD CASES</p><h2><em>현장사례</em></h2><span>현재 자료를 공정별 확인 포인트 중심으로 정리했습니다.</span></Reveal><Reveal className="technology-showcase__reveal" delay={80}><div className="technology-showcase__track production-project-track" role="list">{projectCards.map((project) => <Link href="/gallery" className="technology-card" role="listitem" key={project.title}><div className="technology-card__image"><img src={project.thumbnail} alt={`${project.title} 공정 안내 이미지`} /></div><div className="technology-card__content"><p><i />{project.category}</p><h3>{project.title}</h3><span>{project.description}</span><b><ArrowRight size={18} /></b></div></Link>)}</div><div className="production-project-cta"><Link href="/gallery">현장사례 구조 보기 <ArrowRight size={17} /></Link></div></Reveal></section>;
+  return <section className="technology-showcase"><Reveal className="technology-showcase__heading"><p>FIELD CASES</p><h2><em>현장사례</em></h2><span>회사 자료 수령 전에는 기존 이미지와 샘플 프로젝트 구성을 유지합니다.</span></Reveal><Reveal className="technology-showcase__reveal" delay={80}><div className="technology-showcase__track production-project-track" role="list">{projectCards.map((project) => <Link href="/gallery" className="technology-card" role="listitem" key={project.title}><div className="technology-card__image"><img src={project.thumbnail} alt={`${project.title} ${project.isSample ? "샘플" : "현장"} 이미지`} />{project.isSample && <span className="sample-data-badge">샘플 이미지</span>}</div><div className="technology-card__content"><p><i />{project.category}</p><h3>{project.title}</h3><span>{project.description}</span><b><ArrowRight size={18} /></b></div></Link>)}</div><div className="production-project-cta"><Link href="/gallery">샘플 현장사례 보기 <ArrowRight size={17} /></Link></div></Reveal></section>;
 }

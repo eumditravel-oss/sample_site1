@@ -9,8 +9,8 @@ export default function Gallery() {
       <section className="sub-layout">
         <SubNavigation section="gallery" />
         <article className="sub-content gallery-content">
-          <div className="service-lead"><p className="content-kicker">PROJECT STRUCTURE</p><h2>공정별 확인 내용을<br /><em>현장 자료 구조로 정리합니다.</em></h2><p>현재 등록된 자료는 작업 범위를 설명하기 위한 공정별 구성입니다. 실제 위치와 기간은 확인된 자료가 등록될 때만 표시됩니다.</p></div>
-          <div className="gallery-grid production-gallery-grid">{projectCards.map((project) => <article className="gallery-grid__item" key={project.title}><div><img src={project.thumbnail} alt={`${project.title} 공정 안내 이미지`} /></div><p className="content-kicker">{project.category}</p><h2>{project.title}</h2><p>{project.description}</p><ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>{project.location && <small>지역 {project.location}</small>}{project.period && <small>기간 {project.period}</small>}</article>)}</div>
+          <div className="service-lead"><p className="content-kicker">PROJECT STRUCTURE</p><h2>공정별 확인 내용을<br /><em>현장 자료 구조로 정리합니다.</em></h2><p>현재 사진·지역·기간은 회사 자료 수령 전 화면 구성을 보여 주는 샘플입니다. 실제 현장 자료를 받으면 같은 카드 구조에서 순차적으로 교체합니다.</p></div>
+          <div className="gallery-grid production-gallery-grid">{projectCards.map((project) => <article className="gallery-grid__item" key={project.title}><div><img src={project.thumbnail} alt={`${project.title} ${project.isSample ? "샘플" : "현장"} 이미지`} />{project.isSample && <span className="sample-data-badge">샘플 이미지</span>}</div><p className="content-kicker">{project.category}</p><h2>{project.title}</h2><p>{project.description}</p><ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>{project.location && <small>지역 {project.location} {project.isSample && "(샘플)"}</small>}{project.period && <small>기간 {project.period} {project.isSample && "(샘플)"}</small>}</article>)}</div>
         </article>
       </section>
     </SiteFrame>

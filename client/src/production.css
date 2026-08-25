@@ -20,6 +20,60 @@ body {
   min-width: 0;
 }
 
+.sample-mode-banner {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 24px;
+  background: #fff7dc;
+  border-bottom: 1px solid #eadba7;
+  color: #66531b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.sample-mode-banner strong,
+.sample-data-badge,
+.sample-inline-label,
+.location-details .sample-data small {
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #e4ae22;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.sample-company-card {
+  max-width: 700px;
+  margin-bottom: 25px;
+  padding: 20px 22px;
+  background: #fff8e4;
+  border: 1px solid #ebdda9;
+}
+
+.sample-company-card strong {
+  color: #765a08;
+}
+
+.sample-company-card p {
+  margin-top: 7px;
+  color: #776b4d;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-info__sample {
+  display: block;
+  margin: 3px 0 5px;
+  color: #ffffff9c;
+  font-size: 11px;
+}
+
 .desktop-nav__item {
   position: relative;
   height: 100%;
@@ -470,6 +524,43 @@ body {
   line-height: 1.65;
 }
 
+.production-gallery-grid .gallery-grid__item > div,
+.technology-card__image {
+  position: relative;
+}
+
+.sample-data-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: #172c45e8;
+}
+
+.production-gallery-grid .gallery-grid__item > small {
+  display: block;
+  margin-top: 7px;
+  color: var(--production-muted);
+  font-size: 11px;
+}
+
+.location-details .sample-data {
+  background: #fffaf0;
+}
+
+.location-details .sample-data small {
+  margin-left: 8px;
+  background: #b9870b;
+  vertical-align: 1px;
+}
+
+.location-preview-card .sample-inline-label {
+  display: inline-flex;
+  margin-left: 5px;
+  background: #b9870b;
+  vertical-align: 1px;
+}
+
 .production-gallery-grid .gallery-grid__item > .content-kicker {
   margin-top: 16px;
   color: var(--production-blue);
@@ -564,6 +655,17 @@ body {
 }
 
 @media (max-width: 720px) {
+  .sample-mode-banner {
+    align-items: flex-start;
+    gap: 7px;
+    padding: 8px 14px;
+    line-height: 1.45;
+  }
+
+  .sample-mode-banner strong {
+    margin-top: 1px;
+  }
+
   .hero__information {
     padding-right: 20px;
     padding-left: 20px;

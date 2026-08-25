@@ -1,4 +1,4 @@
-import { company } from "@/config/company";
+import { company, contentMode, sampleCompany, sampleContentNotice } from "@/config/company";
 import { assetUrl } from "@/lib/siteAssets";
 import { copyText } from "@/lib/inquiry";
 import { ArrowUp, ArrowUpRight, ChevronDown, ChevronRight, Mail, Menu, Phone, X } from "lucide-react";
@@ -128,7 +128,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-main">
         <BrandMark inverse />
-        <div className="footer-info"><p>{company.name}</p><small>Copyright © {company.name}. All rights reserved.</small></div>
+        <div className="footer-info"><p>{company.name}</p>{contentMode === "sample" && !company.address && <span className="footer-info__sample">샘플 정보 · {sampleCompany.address} · {sampleCompany.phone}</span>}<small>Copyright © {company.name}. All rights reserved.</small></div>
         {(company.phone || company.email) && <div className="footer-call"><span>CONTACT</span>{company.phone && <a href={`tel:${company.phone}`}>{company.phone}</a>}{company.email && <a className="footer-call__email" href={`mailto:${company.email}`}>{company.email}</a>}</div>}
         <button className="footer-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="맨 위로 이동"><ArrowUp size={25} /></button>
       </div>
@@ -164,5 +164,5 @@ export function FloatingContactCard() {
 export function SiteFrame({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); }, [location]);
-  return <div className="site-frame"><SiteHeader /><main>{children}</main><SiteFooter /><FloatingContactCard /></div>;
+  return <div className="site-frame"><SiteHeader />{contentMode === "sample" && <div className="sample-mode-banner" role="note"><strong>SAMPLE</strong><span>{sampleContentNotice}</span></div>}<main>{children}</main><SiteFooter /><FloatingContactCard /></div>;
 }
