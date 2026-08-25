@@ -49,7 +49,7 @@ jobs:
         run: |
           test -s dist/index.html
           test -s dist/404.html
-          test -s dist/.nojekyll
+          test -f dist/.nojekyll
           find dist/assets -type f -name '*.js' | grep -q .
           find dist/assets -type f -name '*.css' | grep -q .
           test -s dist/media/brand-mark_5f5a3175.png
