@@ -1,16 +1,27 @@
-import { projectCards } from "@/data/projects";
-import { assetUrl } from "@/lib/siteAssets";
+/**
+ * Design reference: spacious visual archive displaying replaceable project images in an orderly card grid.
+ */
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
+
+const workItems = [
+  ["보행로 정비", "/manus-storage/construction-hero_9277bcc5.jpg"],
+  ["경계 구조 시공", "/manus-storage/construction-hero-2_76fd72ca.jpg"],
+  ["블록 포장 공정", "/manus-storage/construction-hero-3_cc7a91dc.jpg"],
+  ["기반 시설 정비", "/manus-storage/construction-hero_9277bcc5.jpg"],
+  ["외부 공간 마감", "/manus-storage/construction-hero-2_76fd72ca.jpg"],
+  ["완료 현장 기록", "/manus-storage/construction-hero-3_cc7a91dc.jpg"],
+];
 
 export default function Gallery() {
   return (
     <SiteFrame>
-      <PageTitle title="현장사례" subtitle="FIELD CASES" crumbs="현장사례 / 시공사례" image={assetUrl("/media/construction-hero-3_cc7a91dc.jpg")} />
+      <PageTitle title="기술 소개" subtitle="TECHNICAL ARCHIVE" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
       <section className="sub-layout">
         <SubNavigation section="gallery" />
         <article className="sub-content gallery-content">
-          <div className="service-lead"><p className="content-kicker">PROJECT STRUCTURE</p><h2>공정별 확인 내용을<br /><em>현장 자료 구조로 정리합니다.</em></h2><p>현재 사진·지역·기간은 회사 자료 수령 전 화면 구성을 보여 주는 샘플입니다. 실제 현장 자료를 받으면 같은 카드 구조에서 순차적으로 교체합니다.</p></div>
-          <div className="gallery-grid production-gallery-grid">{projectCards.map((project) => <article className="gallery-grid__item" key={project.title}><div><img src={project.thumbnail} alt={`${project.title} ${project.isSample ? "샘플" : "현장"} 이미지`} />{project.isSample && <span className="sample-data-badge">샘플 이미지</span>}</div><p className="content-kicker">{project.category}</p><h2>{project.title}</h2><p>{project.description}</p><ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>{project.location && <small>지역 {project.location} {project.isSample && "(샘플)"}</small>}{project.period && <small>기간 {project.period} {project.isSample && "(샘플)"}</small>}</article>)}</div>
+          <p className="gallery-content__intro">선진건설의 시공 결과와 현장 기록을 보여 주는 기술 소개 아카이브입니다. 실제 작업 사진으로 편리하게 교체할 수 있습니다.</p>
+          <div className="gallery-grid">{workItems.map(([title, image], index) => <article className="gallery-grid__item" key={`${title}-${index}`}><div><img src={image} alt={`${title} 예시 사진`} /></div><h2>{title}</h2><p>2026.08.{String(18 - index).padStart(2, "0")}</p></article>)}</div>
+          <div className="pagination"><button type="button" className="is-active">1</button><button type="button">2</button></div>
         </article>
       </section>
     </SiteFrame>

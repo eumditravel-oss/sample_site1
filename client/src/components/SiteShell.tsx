@@ -1,106 +1,152 @@
-import { company, contentMode, sampleCompany, sampleContentNotice } from "@/config/company";
-import { assetUrl } from "@/lib/siteAssets";
-import { copyText } from "@/lib/inquiry";
+/**
+ * Design reference: a precise Korean contractor website reconstruction.
+ * This file keeps a calm white header, construction-blue hierarchy, direct phone and email contact actions, a restrained Samsung C&T-inspired dropdown navigation, and optional image-led page banners.
+ */
+import { Link, useLocation } from "wouter";
 import { ArrowUp, ArrowUpRight, ChevronDown, ChevronRight, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
-import { Link, useLocation } from "wouter";
 
 const navItems = [
-  { label: "회사소개", href: "/company", links: [{ label: "인사말", href: "/company" }, { label: "오시는길", href: "/location" }] },
-  { label: "시공안내", href: "/services/scope", links: [{ label: "시공 가능 공정", href: "/services/scope" }, { label: "진행 절차", href: "/services/process" }] },
-  { label: "현장사례", href: "/gallery", links: [{ label: "시공사례", href: "/gallery" }] },
-  { label: "상담안내", href: "/notices/pre-check", links: [{ label: "상담 전 확인사항", href: "/notices/pre-check" }, { label: "이메일 문의", href: "/consultation" }] },
-  { label: "공지사항", href: "/notices", links: [{ label: "공지사항", href: "/notices" }] },
-] as const;
+  {
+    label: "회사소개", href: "/company",
+    links: [{ label: "인사말", href: "/company" }, { label: "오시는길", href: "/location" }],
+  },
+  {
+    label: "서비스안내", href: "/services/scope",
+    links: [{ label: "공정 범위", href: "/services/scope" }, { label: "고객과의 약속", href: "/services/promise" }],
+  },
+  {
+    label: "온라인상담", href: "/consultation",
+    links: [{ label: "온라인상담", href: "/consultation" }, { label: "상담 리스트", href: "/consultation/list" }],
+  },
+  {
+    label: "공지사항", href: "/notices",
+    links: [{ label: "공지사항", href: "/notices" }, { label: "상담 전 확인사항", href: "/notices/pre-check" }],
+  },
+  {
+    label: "기술 소개", href: "/gallery",
+    links: [{ label: "기술 소개", href: "/gallery" }],
+  },
+];
 
 const subNavigation = {
   company: { label: "회사소개", items: navItems[0].links },
-  services: { label: "시공안내", items: navItems[1].links },
-  gallery: { label: "현장사례", items: navItems[2].links },
-  consultation: { label: "상담안내", items: navItems[3].links },
-  notices: { label: "공지사항", items: navItems[4].links },
+  services: { label: "서비스안내", items: navItems[1].links },
+  consultation: { label: "온라인상담", items: navItems[2].links },
+  notices: { label: "공지사항", items: navItems[3].links },
+  gallery: { label: "기술 소개", items: navItems[4].links },
 } as const;
 
 export function BrandMark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <Link href="/" className={`brand-mark ${inverse ? "brand-mark--inverse" : ""}`} aria-label={`${company.name} 홈으로 이동`}>
-      <img src={assetUrl(company.logoPath)} alt={`${company.legalName} 로고`} />
+    <Link href="/" className={`brand-mark ${inverse ? "brand-mark--inverse" : ""}`} aria-label="선진건설 홈으로 이동">
+      <img src="/manus-storage/brand-mark_5f5a3175.png" alt="선진건설(주) 로고" />
     </Link>
   );
 }
 
 export function SiteHeader() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState<number | null>(null);
   const [location, setLocation] = useLocation();
   const headerRef = useRef<HTMLElement>(null);
 
+  const closeMega = () => setActiveMega(null);
+  const toggleMega = (index: number) => setActiveMega((current) => current === index ? null : index);
+  const navigateToPrimaryItem = (index: number) => {
+    closeMega();
+    setLocation(navItems[index].links[0].href);
+  };
   useEffect(() => {
-    if (!mobileOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = previous; };
-  }, [mobileOpen]);
-
-  useEffect(() => {
-    const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveMenu(null);
-        setMobileOpen(false);
-      }
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMega();
     };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
-  const navigatePrimary = (index: number) => {
-    setActiveMenu(null);
-    setLocation(navItems[index].href);
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [open]);
+
+  const handleHeaderBlur = (event: React.FocusEvent<HTMLElement>) => {
+    if (!headerRef.current?.contains(event.relatedTarget as Node | null)) closeMega();
   };
 
   return (
-    <header className="site-header" ref={headerRef} onMouseLeave={() => setActiveMenu(null)} onBlur={(event) => {
-      if (!headerRef.current?.contains(event.relatedTarget as Node | null)) setActiveMenu(null);
-    }}>
+    <header
+      className="site-header"
+      ref={headerRef}
+      onMouseLeave={closeMega}
+      onBlur={handleHeaderBlur}
+      onKeyDown={(event) => { if (event.key === "Escape") closeMega(); }}
+    >
       <div className="site-header__inner">
         <BrandMark />
         <nav className="desktop-nav" aria-label="주요 메뉴">
           {navItems.map((item, index) => (
-            <div className={`desktop-nav__item ${activeMenu === index ? "is-open" : ""}`} key={item.label} onMouseEnter={() => setActiveMenu(index)}>
-              <button type="button" className={location === item.href || activeMenu === index ? "is-active" : ""} aria-expanded={activeMenu === index} aria-controls={`submenu-${index}`} onFocus={() => setActiveMenu(index)} onClick={() => navigatePrimary(index)}>
+            <div className={`desktop-nav__item ${activeMega === index ? "is-open" : ""}`} key={item.label} onMouseEnter={() => setActiveMega(index)}>
+              <button
+                type="button"
+                className={location === item.href || activeMega === index ? "is-active" : ""}
+                aria-expanded={activeMega === index}
+                aria-controls={`submenu-${index}`}
+                onFocus={() => setActiveMega(index)}
+                aria-haspopup="menu"
+                onClick={() => navigateToPrimaryItem(index)}
+              >
                 {item.label}<ChevronDown size={12} aria-hidden="true" />
               </button>
-              <div id={`submenu-${index}`} className="desktop-nav__submenu" aria-hidden={activeMenu !== index}>
-                {item.links.map((link) => <Link key={link.label} href={link.href} role="menuitem" onClick={() => setActiveMenu(null)}>{link.label}</Link>)}
+              <div id={`submenu-${index}`} className="desktop-nav__submenu" aria-hidden={activeMega !== index}>
+                {item.links.map((link) => <Link key={link.label} href={link.href} onClick={closeMega} role="menuitem">{link.label}</Link>)}
               </div>
             </div>
           ))}
         </nav>
-        <button className="menu-button" type="button" onClick={() => setMobileOpen(true)} aria-label="메뉴 열기" aria-expanded={mobileOpen}><Menu size={25} /></button>
+        <button className="menu-button" type="button" onClick={() => setOpen(true)} aria-label="메뉴 열기">
+          <Menu size={25} />
+        </button>
       </div>
 
-      {mobileOpen && (
-        <div className="mobile-nav-panel is-open" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
-          <div className="mobile-nav-panel__top"><BrandMark /><button className="menu-button" type="button" onClick={() => setMobileOpen(false)} aria-label="메뉴 닫기"><X size={26} /></button></div>
+      {open && (
+        <div className="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
+          <div className="mobile-nav-panel__top">
+            <BrandMark />
+            <button className="menu-button" type="button" onClick={() => setOpen(false)} aria-label="메뉴 닫기">
+              <X size={26} />
+            </button>
+          </div>
           <p className="mobile-nav-panel__label">MENU</p>
           <nav aria-label="모바일 주요 메뉴">
             {navItems.map((item, index) => (
               <div className="mobile-nav-group" key={item.label}>
-                <button type="button" onClick={() => setActiveMenu((current) => current === index ? null : index)} aria-expanded={activeMenu === index}>{item.label}<ChevronDown size={20} /></button>
-                <div className={activeMenu === index ? "mobile-nav-sub is-open" : "mobile-nav-sub"}>
-                  {item.links.map((link) => <Link key={link.label} href={link.href} onClick={() => setMobileOpen(false)}>{link.label}<ChevronRight size={14} /></Link>)}
+                <button type="button" onClick={() => toggleMega(index)} aria-expanded={activeMega === index}>
+                  {item.label}<ChevronDown size={20} />
+                </button>
+                <div className={activeMega === index ? "mobile-nav-sub is-open" : "mobile-nav-sub"}>
+                  {item.links.map((link) => <Link key={link.label} href={link.href} onClick={() => setOpen(false)}>{link.label}<ChevronRight size={14} /></Link>)}
                 </div>
               </div>
             ))}
           </nav>
-          {(company.phone || company.email) && <div className="mobile-nav-panel__contact">
-            {company.phone && <a href={`tel:${company.phone}`}><Phone size={17} /> 전화 문의</a>}
-            {company.email && <a href={`mailto:${company.email}`}><Mail size={17} /> 이메일 문의</a>}
-          </div>}
+          <a className="mobile-nav-panel__contact" href="tel:010-0000-0000"><Phone size={17} /> 빠른 전화 문의 <b>010-0000-0000</b></a>
         </div>
       )}
     </header>
+  );
+}
+
+export function PhoneAside() {
+  return (
+    <aside className="phone-aside">
+      <span className="eyebrow">PHONE CONSULTATION</span>
+      <strong>빠른 문의 안내</strong>
+      <a href="tel:010-0000-0000">010-0000-0000</a>
+      <p>현장 조건과 일정에 맞춰<br />빠르게 안내해 드립니다.</p>
+    </aside>
   );
 }
 
@@ -109,16 +155,28 @@ export function SubNavigation({ section }: { section: keyof typeof subNavigation
   const menu = subNavigation[section];
   return (
     <aside className="sub-navigation" aria-label={`${menu.label} 내부 메뉴`}>
-      <div className="sub-navigation__header"><span>SECTION</span><strong>{menu.label}</strong></div>
-      <nav>{menu.items.map((item) => <Link key={item.label} href={item.href} className={location === item.href ? "is-active" : ""}>{item.label}<ChevronRight size={15} /></Link>)}</nav>
+      <div className="sub-navigation__header">
+        <span>SECTION</span>
+        <strong>{menu.label}</strong>
+      </div>
+      <nav>
+        {menu.items.map((item) => {
+          const isActive = item.href === location;
+          return <Link key={item.label} href={item.href} className={isActive ? "is-active" : ""}>{item.label}<ChevronRight size={15} /></Link>;
+        })}
+      </nav>
     </aside>
   );
 }
 
 export function PageTitle({ title, subtitle, crumbs, image }: { title: string; subtitle: string; crumbs?: string; image?: string }) {
   return (
-    <section className={`page-title ${image ? "page-title--image" : ""}`} style={image ? { backgroundImage: `linear-gradient(90deg,#102233d9,#10223379),url(${image})` } : undefined}>
-      <div className="page-title__inner"><p className="eyebrow">{subtitle}</p><h1>{title}</h1><p className="breadcrumbs">홈 <span>/</span> {crumbs ?? title}</p></div>
+    <section className={`page-title ${image ? "page-title--image" : ""}`} style={image ? { backgroundImage: `linear-gradient(90deg,#102233c9,#10223379),url(${image})` } : undefined}>
+      <div className="page-title__inner">
+        <p className="eyebrow">{subtitle}</p>
+        <h1>{title}</h1>
+        <p className="breadcrumbs">홈 <span>/</span> {crumbs ?? title}</p>
+      </div>
     </section>
   );
 }
@@ -128,41 +186,103 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-main">
         <BrandMark inverse />
-        <div className="footer-info"><p>{company.name}</p>{contentMode === "sample" && !company.address && <span className="footer-info__sample">샘플 정보 · {sampleCompany.address} · {sampleCompany.phone}</span>}<small>Copyright © {company.name}. All rights reserved.</small></div>
-        {(company.phone || company.email) && <div className="footer-call"><span>CONTACT</span>{company.phone && <a href={`tel:${company.phone}`}>{company.phone}</a>}{company.email && <a className="footer-call__email" href={`mailto:${company.email}`}>{company.email}</a>}</div>}
+        <div className="footer-info">
+          <p>선진건설 · 서울특별시 ○○구 현장로 24, 202호</p>
+          <small>Copyright © 선진건설. All rights reserved.</small>
+        </div>
+        <div className="footer-call"><span>CONTACT</span><a href="tel:010-0000-0000">010-0000-0000</a><a className="footer-call__email" href="mailto:contact@oo-construction.co.kr">contact@oo-construction.co.kr</a></div>
         <button className="footer-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="맨 위로 이동"><ArrowUp size={25} /></button>
       </div>
-      <div className="footer-bottom"><div><Link href="/privacy">개인정보처리방침</Link></div><p>현장 조건과 필요한 작업 범위를 먼저 확인합니다.</p></div>
+      <div className="footer-bottom">
+        <div>
+          <a href="#privacy">개인정보처리방침</a>
+          <a href="#terms">이용약관</a>
+          <a href="#email">이메일무단수집거부</a>
+        </div>
+        <p>본 페이지의 사업자 정보·이미지·문구는 교체 전용 예시입니다.</p>
+      </div>
     </footer>
   );
 }
 
 export function FloatingContactCard() {
   const [open, setOpen] = useState(false);
-  const copyEmail = async () => {
-    if (!company.email) return;
-    try { await copyText(company.email); toast.success("대표 이메일을 복사했습니다."); }
-    catch { toast.error("이메일을 복사하지 못했습니다."); }
+  const [copied, setCopied] = useState<"phone" | "email" | null>(null);
+  const phone = "010-0000-0000";
+  const email = "contact@oo-construction.co.kr";
+
+  const copyToClipboard = async (value: string, type: "phone" | "email") => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+      } else {
+        const input = document.createElement("textarea");
+        input.value = value;
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+      }
+      setCopied(type);
+      window.setTimeout(() => setCopied(null), 1600);
+    } catch {
+      setCopied(null);
+    }
   };
 
-  if (!company.phone && !company.email) {
-    return <aside className="floating-contact floating-contact--single" aria-label="상담 문의"><Link href="/consultation" className="floating-contact__consult-link"><span>문의 내용<br />정리하기</span><ArrowUpRight size={16} /></Link></aside>;
-  }
+  const handlePhoneClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.matchMedia("(min-width: 721px)").matches) {
+      event.preventDefault();
+      void copyToClipboard(phone, "phone");
+    }
+  };
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
 
   return (
     <aside className={`floating-contact ${open ? "is-open" : ""}`} aria-label="상담 문의">
       <div id="floating-contact-panel" className="floating-contact__panel" role="dialog" aria-label="대표 연락처" aria-hidden={!open}>
-        <strong className="floating-contact__panel-title">연락처</strong>
-        {company.phone && <a href={`tel:${company.phone}`} tabIndex={open ? 0 : -1}><Phone size={18} /><span>{company.phone}</span></a>}
-        {company.email && <button type="button" tabIndex={open ? 0 : -1} onClick={() => void copyEmail()}><Mail size={18} /><span>{company.email}</span></button>}
+        <p>CONTACT</p>
+        <strong>상담 문의</strong>
+        <a href={`tel:${phone}`} className="floating-contact__copy-target" tabIndex={open ? 0 : -1} onClick={handlePhoneClick} aria-label="대표번호: 모바일에서는 전화 연결, PC에서는 번호 복사"><Phone size={18} aria-hidden="true" /><span><small>대표번호</small><b>{phone}</b></span><em>{copied === "phone" ? "복사됨" : "복사"}</em></a>
+        <button type="button" className="floating-contact__detail floating-contact__copy-target" tabIndex={open ? 0 : -1} onClick={() => void copyToClipboard(email, "email")} aria-label="대표 이메일 복사"><Mail size={18} aria-hidden="true" /><span><small>대표 이메일</small><b>{email}</b></span><em>{copied === "email" ? "복사됨" : "복사"}</em></button>
       </div>
-      <div className="floating-contact__actions"><button type="button" className="floating-contact__trigger" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-controls="floating-contact-panel"><span className="floating-contact__icon"><Phone size={27} /></span><span className="floating-contact__copy"><small>CONTACT</small><strong>상담 문의</strong></span><ChevronDown size={17} /></button><Link href="/consultation" className="floating-contact__consult-link"><span>이메일<br />문의</span><ArrowUpRight size={16} /></Link></div>
+      <div className="floating-contact__actions">
+        <button type="button" className="floating-contact__trigger" onClick={() => setOpen((current) => !current)} aria-expanded={open} aria-controls="floating-contact-panel">
+          <span className="floating-contact__icon"><Phone size={27} aria-hidden="true" /></span>
+          <span className="floating-contact__copy"><small>CONSULTATION</small><strong>상담 문의</strong></span>
+          <ChevronDown size={17} aria-hidden="true" />
+        </button>
+        <Link href="/consultation" className="floating-contact__consult-link" onClick={() => setOpen(false)} aria-label="온라인 상담 신청 페이지로 이동"><span>온라인<br />상담</span><ArrowUpRight size={16} aria-hidden="true" /></Link>
+      </div>
     </aside>
   );
 }
 
 export function SiteFrame({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); }, [location]);
-  return <div className="site-frame"><SiteHeader />{contentMode === "sample" && <div className="sample-mode-banner" role="note"><strong>SAMPLE</strong><span>{sampleContentNotice}</span></div>}<main>{children}</main><SiteFooter /><FloatingContactCard /></div>;
+  const isServiceRoute = location === "/services" || location.startsWith("/services/");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location]);
+
+  return (
+    <div className="site-frame">
+      <SiteHeader />
+      <main key={isServiceRoute ? location : undefined} className={isServiceRoute ? "site-frame__main site-frame__main--service" : "site-frame__main"}>{children}</main>
+      <SiteFooter />
+      <FloatingContactCard />
+    </div>
+  );
 }
