@@ -1,16 +1,10 @@
-/**
- * Design reference: a concise pre-consultation selector that passes prepared project details into the private inquiry form.
- */
+import { assetUrl } from "@/lib/siteAssets";
 import { useState } from "react";
 import { Link } from "wouter";
 import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
 
-const checks = [
-  { number: "01", title: "현장 위치", description: "시·군·구 또는 현장 주소를 확인했다면 선택해 주세요.", type: "location" },
-  { number: "02", title: "필요 공정", description: "상담 폼에 반영할 공정 유형을 선택해 주세요.", type: "work" },
-  { number: "03", title: "희망 시기", description: "현장 일정에 맞는 희망 착수 시기를 선택해 주세요.", type: "schedule" },
-  { number: "04", title: "현장 사진·참고사항", description: "사진이나 참고사항을 준비했다면 선택해 주세요.", type: "photo" },
-];
+const workOptions = ["경계 구조 시공", "보행로·블록 정비", "외부 시설 보수", "현장 부대 공정", "확인 필요"];
+const scheduleOptions = ["1주 이내", "1개월 이내", "일정 협의"];
 
 export default function PreConsultation() {
   const [locationReady, setLocationReady] = useState(false);
@@ -18,20 +12,24 @@ export default function PreConsultation() {
   const [workType, setWorkType] = useState("");
   const [schedule, setSchedule] = useState("");
   const params = new URLSearchParams();
-  if (locationReady) params.set("locationReady", "1");
-  if (photoReady) params.set("photoReady", "1");
   if (workType) params.set("workType", workType);
   if (schedule) params.set("schedule", schedule);
-  const consultationHref = `/consultation${params.size ? `?${params.toString()}` : ""}`;
+  const ready = locationReady && photoReady && Boolean(workType) && Boolean(schedule);
+
   return (
     <SiteFrame>
-      <PageTitle title="상담 전 확인사항" subtitle="CONSULTATION GUIDE" crumbs="상담 전 확인사항" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
+      <PageTitle title="상담 전 확인사항" subtitle="BEFORE INQUIRY" crumbs="상담안내 / 상담 전 확인사항" image={assetUrl("/media/construction-hero-3_cc7a91dc.jpg")} />
       <section className="sub-layout">
-        <SubNavigation section="notices" />
+        <SubNavigation section="consultation" />
         <article className="sub-content precheck-content">
-          <div className="precheck-content__lead"><p className="content-kicker">BEFORE CONSULTATION</p><h2>상담 전 아래 내용을 <em>준비해 주세요.</em></h2><p>정확한 안내를 위해 현장 조건과 필요한 공정, 일정 정보를 미리 확인하면 상담이 더 수월합니다.</p></div>
-          <ol className="precheck-content__list">{checks.map(({ number, title, description, type }) => <li key={number}><span>{number}</span><div><h3>{title}</h3><p>{description}</p>{type === "location" && <button type="button" className={locationReady ? "is-selected" : ""} onClick={() => setLocationReady((value) => !value)}>{locationReady ? "현장 위치 확인됨" : "현장 위치 확인"}</button>}{type === "photo" && <button type="button" className={photoReady ? "is-selected" : ""} onClick={() => setPhotoReady((value) => !value)}>{photoReady ? "사진·참고사항 준비됨" : "사진·참고사항 준비"}</button>}{type === "work" && <div className="precheck-options">{["경계 구조 시공", "보행로·블록 정비", "시설물 보수", "기타·부대 공정"].map((option) => <button type="button" key={option} className={workType === option ? "is-selected" : ""} onClick={() => setWorkType(option)}>{option}</button>)}</div>}{type === "schedule" && <div className="precheck-options">{["1주 이내", "1개월 이내", "일정 협의 필요"].map((option) => <button type="button" key={option} className={schedule === option ? "is-selected" : ""} onClick={() => setSchedule(option)}>{option}</button>)}</div>}</div></li>)}</ol>
-          <div className="precheck-content__cta"><p>선택한 내용은 온라인상담 폼에 자동으로 반영됩니다.</p><Link href={consultationHref}>온라인상담 신청하기</Link></div>
+          <div className="precheck-content__lead"><p className="content-kicker">CHECK FOUR ITEMS</p><h2>네 가지를 준비하면<br /><em>문의 작성이 빨라집니다.</em></h2><p>선택한 공정과 희망 시기는 문의 화면에 이어서 반영됩니다.</p></div>
+          <ol className="precheck-content__list">
+            <li><span>01</span><div><h3>현장 위치</h3><p>현장 주소 또는 작업 구간을 확인해 주세요.</p><button type="button" className={locationReady ? "is-selected" : ""} onClick={() => setLocationReady((value) => !value)}>{locationReady ? "위치 확인 완료" : "현장 위치 확인"}</button></div></li>
+            <li><span>02</span><div><h3>필요 공정</h3><p>가장 가까운 공정을 선택해 주세요.</p><div className="precheck-options">{workOptions.map((option) => <button type="button" key={option} className={workType === option ? "is-selected" : ""} onClick={() => setWorkType(option)}>{option}</button>)}</div></div></li>
+            <li><span>03</span><div><h3>희망 시기</h3><p>상담을 위한 참고 시기를 선택해 주세요.</p><div className="precheck-options">{scheduleOptions.map((option) => <button type="button" key={option} className={schedule === option ? "is-selected" : ""} onClick={() => setSchedule(option)}>{option}</button>)}</div></div></li>
+            <li><span>04</span><div><h3>사진·도면</h3><p>현장 사진은 이메일 앱에서 직접 첨부합니다.</p><button type="button" className={photoReady ? "is-selected" : ""} onClick={() => setPhotoReady((value) => !value)}>{photoReady ? "자료 준비 완료" : "사진·도면 준비"}</button></div></li>
+          </ol>
+          <div className={`precheck-content__cta ${ready ? "is-ready" : ""}`}><p>{ready ? "준비 항목을 모두 확인했습니다." : "네 항목을 확인하면 문의 내용을 빠르게 작성할 수 있습니다."}</p><Link href={`/consultation${params.size ? `?${params.toString()}` : ""}`}>문의 내용 작성하기</Link></div>
         </article>
       </section>
     </SiteFrame>

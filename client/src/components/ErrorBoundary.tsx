@@ -31,13 +31,8 @@ class ErrorBoundary extends Component<Props, State> {
               className="text-destructive mb-6 flex-shrink-0"
             />
 
-            <h2 className="text-xl mb-4">An unexpected error occurred.</h2>
-
-            <div className="p-4 w-full rounded bg-muted overflow-auto mb-6">
-              <pre className="text-sm text-muted-foreground whitespace-break-spaces">
-                {this.state.error?.stack}
-              </pre>
-            </div>
+            <h2 className="text-xl mb-3">페이지를 불러오지 못했습니다.</h2>
+            <p className="mb-6 text-center text-sm text-muted-foreground">잠시 후 다시 시도해 주세요. 문제가 계속되면 새로고침해 주세요.</p>
 
             <button
               onClick={() => window.location.reload()}
@@ -48,7 +43,7 @@ class ErrorBoundary extends Component<Props, State> {
               )}
             >
               <RotateCcw size={16} />
-              Reload Page
+              페이지 새로고침
             </button>
           </div>
         </div>
