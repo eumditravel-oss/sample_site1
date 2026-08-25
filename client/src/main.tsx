@@ -10,6 +10,7 @@ import "./index.css";
 import "./home-restructure.css";
 import "./home-field-refinement.css";
 import "./sub-navigation.css";
+import "./brand.css";
 
 const queryClient = new QueryClient();
 

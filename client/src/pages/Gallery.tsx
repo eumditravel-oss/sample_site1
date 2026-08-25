@@ -19,7 +19,7 @@ export default function Gallery() {
       <section className="sub-layout">
         <SubNavigation section="gallery" />
         <article className="sub-content gallery-content">
-          <p className="gallery-content__intro">ㅇㅇ토건의 시공 결과와 현장 기록을 보여 주는 기술 소개 아카이브입니다. 실제 작업 사진으로 편리하게 교체할 수 있습니다.</p>
+          <p className="gallery-content__intro">선진건설의 시공 결과와 현장 기록을 보여 주는 기술 소개 아카이브입니다. 실제 작업 사진으로 편리하게 교체할 수 있습니다.</p>
           <div className="gallery-grid">{workItems.map(([title, image], index) => <article className="gallery-grid__item" key={`${title}-${index}`}><div><img src={image} alt={`${title} 예시 사진`} /></div><h2>{title}</h2><p>2026.08.{String(18 - index).padStart(2, "0")}</p></article>)}</div>
           <div className="pagination"><button type="button" className="is-active">1</button><button type="button">2</button></div>
         </article>

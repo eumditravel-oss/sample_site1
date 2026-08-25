@@ -15,7 +15,7 @@ const heroImages = [
 ];
 
 const serviceCards = [
-  { eyebrow: "ㅇㅇ토건", title: "인사말", href: "/company", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
+  { eyebrow: "선진건설", title: "인사말", href: "/company", image: "/manus-storage/construction-hero_9277bcc5.jpg" },
   { eyebrow: "Service Guide", title: "서비스안내", href: "/services/scope", image: "/manus-storage/construction-hero-2_76fd72ca.jpg" },
   { eyebrow: "Field Archive", title: "기술 소개", href: "/gallery", image: "/manus-storage/construction-hero-3_cc7a91dc.jpg" },
   { eyebrow: "Location", title: "오시는길", href: "/location", image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=85" },
@@ -427,7 +427,7 @@ export function LocationPreview() {
         <div className="map-visual__road map-visual__road--one" />
         <div className="map-visual__road map-visual__road--two" />
         <div className="map-visual__road map-visual__road--three" />
-        <div className="map-visual__pin"><MapPin fill="currentColor" size={30} /><span>ㅇㅇ토건</span></div>
+        <div className="map-visual__pin"><MapPin fill="currentColor" size={30} /><span>선진건설</span></div>
       </div>
       <div className="location-preview__copy"><MapPin size={16} /><span>서울특별시 ○○구 현장로 24, 202호</span></div>
     </section>
@@ -496,7 +496,7 @@ export function TechnologyShowcase() {
         <div className="technology-showcase__stage">
           <button type="button" className="technology-showcase__edge technology-showcase__edge--prev" onClick={() => goToPage(activePage - 1)} disabled={activePage === 0} aria-label="이전 기술 소개 페이지"><ArrowLeft size={23} /></button>
           <div className="technology-showcase__viewport">
-            <div ref={scrollRef} className="technology-showcase__track" role="list" aria-label="ㅇㅇ토건 기술 소개">
+            <div ref={scrollRef} className="technology-showcase__track" role="list" aria-label="선진건설 기술 소개">
               {technologyCards.map((card) => (
                 <Link href="/services/scope" className="technology-card" key={card.title} role="listitem">
                   <div className="technology-card__image"><img src={card.image} alt={`${card.title} 현장 예시`} /></div>

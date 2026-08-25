@@ -39,9 +39,8 @@ const subNavigation = {
 
 export function BrandMark({ inverse = false }: { inverse?: boolean }) {
   return (
-    <Link href="/" className={`brand-mark ${inverse ? "brand-mark--inverse" : ""}`} aria-label="ㅇㅇ토건 홈으로 이동">
-      <img src="/manus-storage/brand-mark_5f5a3175.png" alt="ㅇㅇ토건 심볼" />
-      <span>ㅇㅇ토건</span>
+    <Link href="/" className={`brand-mark ${inverse ? "brand-mark--inverse" : ""}`} aria-label="선진건설 홈으로 이동">
+      <img src="/manus-storage/brand-mark_5f5a3175.png" alt="선진건설(주) 로고" />
     </Link>
   );
 }
@@ -188,8 +187,8 @@ export function SiteFooter() {
       <div className="footer-main">
         <BrandMark inverse />
         <div className="footer-info">
-          <p>ㅇㅇ토건 · 서울특별시 ○○구 현장로 24, 202호</p>
-          <small>Copyright © ㅇㅇ토건. All rights reserved.</small>
+          <p>선진건설 · 서울특별시 ○○구 현장로 24, 202호</p>
+          <small>Copyright © 선진건설. All rights reserved.</small>
         </div>
         <div className="footer-call"><span>CONTACT</span><a href="tel:010-0000-0000">010-0000-0000</a><a className="footer-call__email" href="mailto:contact@oo-construction.co.kr">contact@oo-construction.co.kr</a></div>
         <button className="footer-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="맨 위로 이동"><ArrowUp size={25} /></button>
