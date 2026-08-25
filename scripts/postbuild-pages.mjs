@@ -16,7 +16,7 @@ const notFound = `<!doctype html>
         var base = ${JSON.stringify(basePath)};
         var route = base && path.indexOf(base + "/") === 0 ? path.slice(base.length) : path;
         route = route || "/";
-        window.location.replace(base + "/#" + route + window.location.search);
+        window.location.replace(base + "/" + window.location.search + "#" + route);
       })();
     </script>
   </head>
