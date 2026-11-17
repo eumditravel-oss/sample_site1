@@ -81,7 +81,12 @@ export default function Gallery() {
             {filtered.map((item) => (
               <Reveal key={item.id} className="sj-gallery-card">
                 <div className="sj-gallery-card__img">
-                  <img src={assetPath(item.image)} alt="" />
+                  <img
+                    src={assetPath(item.image)}
+                    alt={`${item.title} (${item.subtitle})`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{item.category}</span>
                 </div>
                 <div className="sj-gallery-card__body">
@@ -122,7 +127,7 @@ export default function Gallery() {
         >
           <div className="sj-modal">
             <div className="sj-modal__media">
-              <img src={assetPath(activeItem.image)} alt="" />
+              <img src={assetPath(activeItem.image)} alt={`${activeItem.title} 시공 검측 기준`} decoding="async" />
               <span>{activeItem.category}</span>
             </div>
             <div className="sj-modal__body">

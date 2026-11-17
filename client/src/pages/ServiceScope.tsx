@@ -41,7 +41,12 @@ export default function ServiceScope() {
             {civilScopes.map((scope) => (
               <Reveal key={scope.slug} className="sj-scope-detail">
                 <div className="sj-scope-detail__media">
-                  <img src={assetPath(scope.image)} alt="" />
+                  <img
+                    src={assetPath(scope.image)}
+                    alt={`${scope.title} — ${scope.shortDesc}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{scope.code}</span>
                 </div>
                 <div className="sj-scope-detail__content">

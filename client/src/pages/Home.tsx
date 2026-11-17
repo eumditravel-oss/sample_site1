@@ -154,9 +154,11 @@ export default function Home() {
             <img
               key={item.image}
               src={assetPath(item.image)}
-              alt=""
+              alt={`${item.subtitle} — 선진건설(주) 현장 시공 비주얼`}
               className={idx === slideIdx ? "is-active" : ""}
               aria-hidden={idx !== slideIdx}
+              fetchPriority={idx === 0 ? "high" : "auto"}
+              decoding="async"
             />
           ))}
         </div>
@@ -268,7 +270,7 @@ export default function Home() {
         >
           <div className="sj-modal">
             <div className="sj-modal__media">
-              <img src={assetPath(modalScope.image)} alt="" />
+              <img src={assetPath(modalScope.image)} alt={`${modalScope.title} 세부 공정 안내`} decoding="async" />
               <span>{modalScope.code}</span>
             </div>
             <div className="sj-modal__body">
@@ -361,7 +363,12 @@ export default function Home() {
             {civilScopes.map((scope) => (
               <Reveal key={scope.slug} className="sj-scope-card">
                 <div className="sj-scope-card__img">
-                  <img src={assetPath(scope.image)} alt="" />
+                  <img
+                    src={assetPath(scope.image)}
+                    alt={`${scope.title} (${scope.shortDesc}) 시공 현장`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{scope.code}</span>
                 </div>
                 <div className="sj-scope-card__body">
@@ -438,7 +445,12 @@ export default function Home() {
             {techArchiveItems.map((item) => (
               <Link href="/gallery" key={item.id} className="sj-tech-card">
                 <div className="sj-tech-card__img">
-                  <img src={assetPath(item.image)} alt="" />
+                  <img
+                    src={assetPath(item.image)}
+                    alt={`${item.title} — ${item.subtitle}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{item.category}</span>
                 </div>
                 <div className="sj-tech-card__body">

@@ -1,4 +1,5 @@
 import { company } from "@/config/company";
+import { SeoInspector } from "@/components/SeoInspector";
 import { assetPath } from "@/lib/assets";
 import {
   ArrowRight,
@@ -570,6 +571,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
       </main>
       <SiteFooter />
       <FloatingQuickBar />
+      <SeoInspector />
     </div>
   );
 }

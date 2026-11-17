@@ -49,7 +49,12 @@ export default function Company() {
 
           <Reveal className="sj-greeting-box">
             <div className="sj-greeting-box__media">
-              <img src={assetPath("seonjin-06.jpg")} alt="광파기로 도로 경계석과 보행로 선형을 정밀 측량하는 현장 기술자" />
+              <img
+                src={assetPath("seonjin-06.jpg")}
+                alt="광파기로 도로 경계석과 보행로 선형을 정밀 측량하는 현장 기술자"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className="sj-greeting-box__text">
               <p>
