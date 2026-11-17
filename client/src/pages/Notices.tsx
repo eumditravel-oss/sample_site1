@@ -1,38 +1,92 @@
-/**
- * Design reference: a minimal Korean notice board with title-and-content search for quick information finding.
- */
-import { Search } from "lucide-react";
-import { FormEvent, useMemo, useState } from "react";
-import { PageTitle, SiteFrame, SubNavigation } from "@/components/SiteShell";
-
-const notices = [
-  { title: "사이트 이용 및 상담 문의 안내", content: "온라인상담 작성과 비공개 게시글 확인 방법을 안내합니다.", date: "2026.08.18", views: 12 },
-  { title: "개인정보 수집 및 이용 동의 안내", content: "상담 접수 시 수집하는 정보와 이용 목적을 안내합니다.", date: "2026.08.17", views: 13 },
-  { title: "현장 일정 상담 전 확인 사항", content: "현장 위치, 필요한 공정, 희망 일정과 참고 사진을 준비해 주세요.", date: "2026.08.16", views: 14 },
-  { title: "작업 범위 안내 문구 예시", content: "경계 구조와 보행로 정비, 외부 시설 보수의 공정 범위를 안내합니다.", date: "2026.08.15", views: 15 },
-  { title: "안전한 시공 진행을 위한 약속", content: "현장 확인부터 완료 확인까지 공유하는 운영 기준입니다.", date: "2026.08.14", views: 16 },
-  { title: "홈페이지 구조 재현 안내", content: "사이트 내 공지와 상담 페이지의 이용 흐름을 설명합니다.", date: "2026.08.13", views: 17 },
-];
+import { Reveal, SiteFrame, SubLayout, SubPageBanner } from "@/components/SiteShell";
+import { seonjinNotices } from "@/data/civilData";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import { ChevronDown, Search } from "lucide-react";
+import { useMemo, useState, type FormEvent } from "react";
 
 export default function Notices() {
+  usePageMeta(
+    "공지사항 및 시공 안내",
+    "견적 문의 준비 사항, 계절별 품질관리 기준 및 현장 안전 운영 안내를 전하는 선진건설(주) 게시판",
+  );
   const [keyword, setKeyword] = useState("");
-  const filteredNotices = useMemo(() => {
-    const normalized = keyword.trim().toLocaleLowerCase("ko-KR");
-    if (!normalized) return notices;
-    return notices.filter((notice) => `${notice.title} ${notice.content}`.toLocaleLowerCase("ko-KR").includes(normalized));
+  const [openId, setOpenId] = useState<string>(seonjinNotices[0]?.id ?? "");
+
+  const filtered = useMemo(() => {
+    const q = keyword.trim().toLocaleLowerCase("ko-KR");
+    if (!q) return seonjinNotices;
+    return seonjinNotices.filter((post) =>
+      `${post.badge} ${post.title} ${post.summary} ${post.body.join(" ")}`.toLocaleLowerCase("ko-KR").includes(q),
+    );
   }, [keyword]);
-  const handleSearch = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
+
+  const onSearch = (e: FormEvent<HTMLFormElement>) => e.preventDefault();
+
   return (
     <SiteFrame>
-      <PageTitle title="공지사항" subtitle="NOTICE" image="/manus-storage/construction-hero-3_cc7a91dc.jpg" />
-      <section className="sub-layout">
-        <SubNavigation section="notices" />
-        <article className="sub-content board-content">
-          <div className="board-top"><p>{keyword.trim() ? "검색 결과" : "총 게시물"} <b>{filteredNotices.length}</b>건</p><form className="board-search" onSubmit={handleSearch}><input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="제목 또는 내용을 입력하세요" aria-label="공지사항 제목 또는 내용 검색" /><button type="submit" aria-label="검색"><Search size={17} /></button></form></div>
-          <div className="board-table-wrap"><table className="board-table"><thead><tr><th>번호</th><th>제목</th><th>등록일</th><th>조회</th></tr></thead><tbody>{filteredNotices.length ? filteredNotices.map((notice, index) => <tr key={notice.title}><td>{filteredNotices.length - index}</td><td><strong>{notice.title}</strong><small className="notice-table__content">{notice.content}</small></td><td>{notice.date}</td><td>{notice.views}</td></tr>) : <tr><td colSpan={4} className="board-empty">제목 또는 내용과 일치하는 공지사항이 없습니다.</td></tr>}</tbody></table></div>
-          <div className="pagination"><button type="button" className="is-active">1</button></div>
+      <SubPageBanner
+        eyebrow="CUSTOMER NOTICE & GUIDE"
+        title="공지사항"
+        description="상담 준비 안내부터 계절별 품질관리, 통행 안전 운영 기준까지 확인하실 수 있습니다."
+        crumbs="고객센터 / 공지사항 · 시공안내"
+        image="/seonjin-02.jpg"
+      />
+
+      <SubLayout section="notices">
+        <article className="sj-article">
+          <Reveal className="sj-board-toolbar">
+            <p>
+              {keyword.trim() ? "검색 결과" : "전체 게시물"} <strong>{filtered.length}</strong>건
+            </p>
+            <form className="sj-board-search sj-js-only" onSubmit={onSearch}>
+              <input
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="제목 또는 안내 키워드를 검색하세요"
+                aria-label="공지사항 검색어 입력"
+              />
+              <button type="submit" aria-label="검색">
+                <Search size={17} />
+              </button>
+            </form>
+          </Reveal>
+
+          <div className="sj-notice-board">
+            {filtered.length > 0 ? (
+              filtered.map((post, idx) => {
+                const isOpen = openId === post.id;
+                return (
+                  <div key={post.id} className={`sj-notice-item ${isOpen ? "is-open" : ""}`}>
+                    <div className="sj-notice-item__head">
+                      <span className="sj-notice-item__num">{String(filtered.length - idx).padStart(2, "0")}</span>
+                      <span className="sj-tag">{post.badge}</span>
+                      <button
+                        type="button"
+                        className="sj-notice-item__trigger"
+                        aria-expanded={isOpen}
+                        aria-controls={`sj-notice-panel-${post.id}`}
+                        onClick={() => setOpenId((prev) => (prev === post.id ? "" : post.id))}
+                      >
+                        <strong>{post.title}</strong>
+                        <small>{post.summary}</small>
+                      </button>
+                      <time>{post.date}</time>
+                      <ChevronDown className="sj-notice-item__chevron" size={18} aria-hidden="true" />
+                    </div>
+                    <div id={`sj-notice-panel-${post.id}`} className="sj-notice-item__body" hidden={!isOpen}>
+                      {post.body.map((p) => (
+                        <p key={p}>{p}</p>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="sj-notice-empty">입력하신 검색어와 일치하는 공지사항이 없습니다.</div>
+            )}
+          </div>
         </article>
-      </section>
+      </SubLayout>
     </SiteFrame>
   );
 }

@@ -1,25 +1,59 @@
 <!doctype html>
 <html lang="ko">
-
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>선진건설(주) | 도시기반·도로경계·보행포장·배수관로 전문시공</title>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>선진건설 | 토건 공사 안내</title>
-    <meta name="description" content="시공사 웹사이트 구조 재현 프로젝트" />
+      name="description"
+      content="기초 측량부터 정밀 마감까지 현장 기준을 지키는 도로경계·보행로 정비·우수배수·부대토목 전문건설기업 선진건설(주)"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="선진건설(주)" />
+    <meta property="og:title" content="선진건설(주) | 도시기반·도로경계·보행포장·배수관로 전문시공" />
+    <meta
+      property="og:description"
+      content="기초 측량부터 정밀 마감까지 현장 기준을 지키는 도로경계·보행로 정비·우수배수·부대토목 전문건설기업 선진건설(주)"
+    />
+    <meta property="og:url" content="https://eumditravel-oss.github.io/sample_site1/" />
+    <meta property="og:image" content="https://eumditravel-oss.github.io/sample_site1/social-preview.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="선진건설(주) | 도시기반·도로경계·보행포장·배수관로 전문시공" />
+    <meta
+      name="twitter:description"
+      content="기초 측량부터 정밀 마감까지 현장 기준을 지키는 도로경계·보행로 정비·우수배수·부대토목 전문건설기업 선진건설(주)"
+    />
+    <meta name="twitter:image" content="https://eumditravel-oss.github.io/sample_site1/social-preview.jpg" />
+    <link rel="canonical" href="https://eumditravel-oss.github.io/sample_site1/" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        var h = window.location.hash;
+        if (!h) return;
+        var map = { "#privacy": "/privacy", "#terms": "/terms", "#email": "/email-policy" };
+        var route = map[h] || (h.indexOf("#/") === 0 ? h.slice(1) : null);
+        if (!route) return;
+        var base = document.querySelector('link[rel="canonical"]');
+        var rootPath = window.location.pathname.replace(/\/index\.html$/, "").replace(/\/+$/, "");
+        window.location.replace(rootPath + route);
+      })();
+    </script>
+    <noscript>
+      <style>
+        .sj-reveal { opacity: 1 !important; transform: none !important; }
+        .sj-js-only { display: none !important; }
+      </style>
+    </noscript>
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
-
 </html>
